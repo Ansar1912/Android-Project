@@ -1,0 +1,107 @@
+to run a new acitivty create an intent then 
+
+val intent=Intent(this,HomeActivity::class.java)
+startActivity(intent)
+
+<activity android:name=".HomeActivity"
+            android:exported="false"/>
+
+To implement Data class
+import kotlinx.android.parcel.Parcelize
+@Parcelize
+data class User(val email:String,val password:String): Parcelable
+id 'kotlin-android-extensions' (in build.gradle)
+
+To Saved Instance On Device Rotate
+
+override fun onSaveInstanceState(outState: Bundle) {
+
+        super.onSaveInstanceState(outState)
+        val txError=findViewById<TextView>(R.id.txError)
+        if(txError.visibility == View.VISIBLE)
+            outState.putString("error",txError.text.toString())
+    }
+
+val error=savedInstanceState?.getString("error")
+        txError.text=error.toString()
+
+
+Global Data Storage
+
+object Dataholder{
+    lateinit var user: User
+    internal fun getUser():User {
+        return user
+    }
+}
+
+
+For Calling an Activity after a gap of few seconds
+val handler=Handler()
+lateinit var runnable: Runnable
+runnable = Runnable {
+            Intent(this,MainActivity::class.java).apply {
+                startActivity(this)
+                finish()
+            }
+        }
+
+        handler.postDelayed(runnable,3000)
+
+}
+
+
+For Adding List Product
+
+Create a ProductView (xml)
+Product List
+add a recycler view
+
+Create a Adapter 
+class ProductAdapter(var productList:MutableList<Product>):RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+
+    class ProductViewHolder(view: View):RecyclerView.ViewHolder(view){
+        val productname=view.findViewById<TextView>(R.id.name)
+        val productprice=view.findViewById<TextView>(R.id.price)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.productview, parent, false)
+        return ProductViewHolder(view)
+    }
+
+    override fun getItemCount(): Int {
+        return productList.size
+    }
+
+    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
+        val product = productList[position]
+        holder.productname.text = product.name
+        holder.productprice.text = "Rs. ${product.price}"
+    }
+}
+
+ var rvProduct=findViewById<RecyclerView>(R.id.rvProduct)
+        rvProduct.adapter = ProductAdapter(getProducts())
+
+ private fun getProducts():MutableList<Product>{
+        val products = mutableListOf<Product>()
+        products.add(Product("Samsung A53",67000.00))
+        return products
+    }
+
+
+
+
+App Prefences
+class in utils
+class AppPrefences (var context: Context) {
+    private val prefences=context.getSharedPreferences("app_pref",MODE_PRIVATE)
+
+    fun setData(key:String,value: String){
+        prefences.edit().putString(key,value).apply()
+    }
+    fun getData(key: String):String?{
+        return prefences.getString(key,"0");
+    }
+}
