@@ -1,4 +1,4 @@
-to run a new acitivty create an intent then 
+----------------------------------to run a new acitivty create an intent then ----------------------------------
 
 val intent=Intent(this,HomeActivity::class.java)
 startActivity(intent)
@@ -6,13 +6,14 @@ startActivity(intent)
 <activity android:name=".HomeActivity"
             android:exported="false"/>
 
-To implement Data class
+
+----------------------------------To implement Data class----------------------------------
 import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class User(val email:String,val password:String): Parcelable
 id 'kotlin-android-extensions' (in build.gradle)
 
-To Saved Instance On Device Rotate
+----------------------------------To Saved Instance On Device Rotate----------------------------------
 
 override fun onSaveInstanceState(outState: Bundle) {
 
@@ -26,7 +27,7 @@ val error=savedInstanceState?.getString("error")
         txError.text=error.toString()
 
 
-Global Data Storage
+----------------------------------Global Data Storage--------------------------------------------
 
 object Dataholder{
     lateinit var user: User
@@ -36,7 +37,7 @@ object Dataholder{
 }
 
 
-For Calling an Activity after a gap of few seconds
+----------------------------------For Calling an Activity after a gap of few seconds----------------------------------
 val handler=Handler()
 lateinit var runnable: Runnable
 runnable = Runnable {
@@ -51,7 +52,7 @@ runnable = Runnable {
 }
 
 
-For Adding List Product
+----------------------------------For Adding List Product----------------------------------
 
 Create a ProductView (xml)
 Product List
@@ -93,7 +94,7 @@ class ProductAdapter(var productList:MutableList<Product>):RecyclerView.Adapter<
 
 
 
-App Prefences
+----------------------------------App Prefences----------------------------------
 class in utils
 class AppPrefences (var context: Context) {
     private val prefences=context.getSharedPreferences("app_pref",MODE_PRIVATE)
